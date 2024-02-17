@@ -254,7 +254,7 @@ pub(crate) unsafe extern "C" fn pam_converse<T: ConversationHandler>(
 	// Transfer responses to caller and return.
 	// Sound as long as the PAM modules play by the rules..
 	*out_resp = responses.into();
-	PAM_SUCCESS as i32
+	PAM_SUCCESS
 }
 
 #[cfg(test)]

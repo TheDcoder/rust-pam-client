@@ -208,14 +208,14 @@ mod tests {
 		buffer.put(2, Some(CString::new("another response").unwrap()));
 		buffer.put_binary(3, 1, &[]);
 		buffer.put_binary(3, 1, &[0, 1, 2]);
-		return buffer;
+		buffer
 	}
 
 	#[test]
 	fn test_len() {
 		assert_eq!(ResponseBuffer::new(1).unwrap().len(), 1);
 		assert_eq!(ResponseBuffer::new(3).unwrap().len(), 3);
-		assert_eq!(ResponseBuffer::new(3).unwrap().is_empty(), false);
+		assert!(!ResponseBuffer::new(3).unwrap().is_empty());
 		assert_eq!(ResponseBuffer::new(65535).unwrap().len(), 65535);
 		assert_eq!(ResponseBuffer::new(65535).unwrap()[..].len(), 65535);
 
@@ -241,7 +241,7 @@ mod tests {
 	fn test_index() {
 		let buffer = prepare_test_buffer();
 		assert_eq!(buffer[0].resp_retcode, 0);
-		assert_eq!(buffer[1].resp.is_null(), true);
-		assert_eq!(buffer[2].resp.is_null(), false);
+		assert!(buffer[1].resp.is_null());
+		assert!(!buffer[2].resp.is_null());
 	}
 }

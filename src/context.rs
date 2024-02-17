@@ -675,7 +675,6 @@ impl<ConvT> Context<ConvT> {
 			Err(error) => Err(error.map(|(ctx, b_conv)| (ctx, *b_conv))),
 		}
 	}
-
 	/// Swap the conversation handler (boxed variant).
 	///
 	/// See [`replace_conversation()`][`Self::replace_conversation()`].
@@ -761,7 +760,7 @@ mod tests {
 		assert_eq!(context.user().unwrap(), "user");
 		// Check basic properties of PamHandle
 		let h = context.handle();
-		assert_eq!(&h.clone().0, &h.0);
+		assert_eq!(&h.0, &h.0);
 		assert!(format!("{:?}", h).contains(&format!("{:?}", h.as_ptr())));
 		// Check setting/getting of string items.
 		context.set_user_prompt(Some("Who art thou? ")).unwrap();
@@ -806,7 +805,7 @@ mod tests {
 		assert_eq!(context.getenv("TEST").unwrap(), "1");
 		assert!(context.getenv("TESTNONEXIST").is_none());
 		let env = context.envlist();
-		assert!(env.len() > 0);
+		assert!(!env.is_empty());
 		let _ = env.get("TEST").unwrap();
 		let _ = env.get("TESTNONEXIST").is_none();
 		for (key, value) in env.iter_tuples() {
@@ -827,7 +826,7 @@ mod tests {
 			let _ = item.as_ref();
 		}
 		let _ = format!("{:?}", &env);
-		assert_eq!(env.is_empty(), false);
+		assert!(!env.is_empty());
 		assert_eq!(env.len(), env.as_ref().len());
 		assert_eq!(env.as_ref(), context.envlist().as_ref());
 		assert_eq!(

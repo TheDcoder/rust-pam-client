@@ -108,7 +108,7 @@ impl ConversationHandler for Conversation {
 
 	fn prompt_echo_off(&mut self, msg: &CStr) -> Result<CString, ErrorCode> {
 		let prompt = msg.to_string_lossy();
-		match rpassword::prompt_password(&prompt) {
+		match rpassword::prompt_password(prompt) {
 			Err(_) => Err(ErrorCode::CONV_ERR),
 			Ok(password) => CString::new(password).map_err(|_| ErrorCode::CONV_ERR),
 		}

@@ -161,7 +161,7 @@ mod tests {
 	#[test]
 	fn test_boxed() {
 		let text = CString::new("test").unwrap();
-		let mut c = Box::new(Conversation::default());
+		let mut c = Box::<Conversation>::default();
 		assert!(c.prompt_echo_on(&text).is_ok());
 		assert!(c.prompt_echo_off(&text).is_ok());
 		assert!(c.radio_prompt(&text).ok() == Some(false));
