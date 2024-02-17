@@ -16,7 +16,7 @@ cache: &global_cache
   policy: pull-push
 
 variables:
-  CARGO_INCREMENTAL: 0
+  CARGO_INCREMENTAL: "0"
   CARGO_HOME: ${CI_PROJECT_DIR}/.cargo
   RUSTUP_HOME: /usr/local/rustup
   CLIPPY_OPTS: -W clippy::pedantic -A clippy::must_use_candidate -A clippy::doc_markdown -A clippy::empty_enum -A clippy::module_name_repetitions -A clippy::missing_errors_doc -A clippy::cast_possible_wrap
@@ -46,7 +46,7 @@ test:stable:
   before_script:
     - mkdir -p .cargo/apt-cache
     - apt-get update -qy
-    - apt-get -qy -o dir::cache::archives="${CI_PROJECT_DIR}/.cargo/apt-cache" install libpam0g-dev llvm clang
+    - apt-get -qy -o dir::cache::archives="${CI_PROJECT_DIR}/.cargo/apt-cache" install libpam0g-dev llvm clang libclang-dev
     - cargo install cargo-hack --force
     - wget https://grenz-bonn.de/rust2junit.py
     - chmod +x rust2junit.py
@@ -65,7 +65,7 @@ coverage:
   before_script:
     - mkdir -p .cargo/apt-cache
     - apt-get update -qy
-    - apt-get -qy -o dir::cache::archives="${CI_PROJECT_DIR}/.cargo/apt-cache" install libpam0g-dev llvm clang
+    - apt-get -qy -o dir::cache::archives="${CI_PROJECT_DIR}/.cargo/apt-cache" install libpam0g-dev llvm clang libclang-dev
     - rustup toolchain install nightly --profile=minimal
     - rustup component add llvm-tools-preview --toolchain nightly
     - rustup default nightly
@@ -93,7 +93,7 @@ clippy:
   before_script:
     - mkdir -p .cargo/apt-cache
     - apt-get update -qy
-    - apt-get -qy -o dir::cache::archives="${CI_PROJECT_DIR}/.cargo/apt-cache" install libpam0g-dev llvm clang
+    - apt-get -qy -o dir::cache::archives="${CI_PROJECT_DIR}/.cargo/apt-cache" install libpam0g-dev llvm clang libclang-dev
     - rustup component add clippy
     - cargo install gitlab_clippy --force
   script:
@@ -122,7 +122,7 @@ pages:
   before_script:
     - mkdir -p .cargo/apt-cache
     - apt-get update -qy
-    - apt-get -qy -o dir::cache::archives="${CI_PROJECT_DIR}/.cargo/apt-cache" install libpam0g-dev llvm clang
+    - apt-get -qy -o dir::cache::archives="${CI_PROJECT_DIR}/.cargo/apt-cache" install libpam0g-dev llvm clang libclang-dev
   script:
     - cargo doc --workspace --all-features --color=always
     - rm -rf public || true
