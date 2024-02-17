@@ -155,7 +155,7 @@ bitflags! {
 	/// Flags for most PAM functions
 	#[allow(clippy::upper_case_acronyms)]
 	#[repr(transparent)]
-	#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+	#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(transparent))]
 	#[derive(Copy, Clone)]
 	pub struct Flag: c_int {
 		/// Don't generate any messages
