@@ -344,12 +344,13 @@ where
 	/// [authorized]: `Self::acct_mgmt()`
 	#[rustversion::attr(since(1.48), doc(alias = "pam_open_session"))]
 	pub fn open_session(&mut self, flags: Flag) -> Result<Session<ConvT>> {
+		let bits = flags.bits();
 		let handle = self.handle().as_ptr();
 		self.wrap_pam_return(unsafe {
 			pam_setcred(handle, (Flag::ESTABLISH_CRED | flags).bits())
 		})?;
 
-		if let Err(e) = self.wrap_pam_return(unsafe { pam_open_session(handle, flags.bits()) }) {
+		if let Err(e) = self.wrap_pam_return(unsafe { pam_open_session(handle, bits) }) {
 			let _ = self.wrap_pam_return(unsafe {
 				pam_setcred(handle, (Flag::DELETE_CRED | flags).bits())
 			});
@@ -363,7 +364,7 @@ where
 		if let Err(e) = self.wrap_pam_return(unsafe {
 			pam_setcred(handle, (Flag::REINITIALIZE_CRED | flags).bits())
 		}) {
-			let _ = self.wrap_pam_return(unsafe { pam_close_session(handle, flags.bits()) });
+			let _ = self.wrap_pam_return(unsafe { pam_close_session(handle, bits) });
 			let _ = self.wrap_pam_return(unsafe {
 				pam_setcred(handle, (Flag::DELETE_CRED | flags).bits())
 			});

@@ -156,6 +156,7 @@ bitflags! {
 	#[allow(clippy::upper_case_acronyms)]
 	#[repr(transparent)]
 	#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+	#[derive(Copy, Clone)]
 	pub struct Flag: c_int {
 		/// Don't generate any messages
 		const SILENT = PAM_SILENT as c_int;
@@ -181,7 +182,7 @@ bitflags! {
 #[allow(clippy::upper_case_acronyms)]
 impl Flag {
 	/// No flags; use default behaviour.
-	pub const NONE: Flag = Flag { bits: 0 };
+	pub const NONE: Flag = Flag::empty();
 }
 
 #[allow(non_camel_case_types, clippy::upper_case_acronyms)]
