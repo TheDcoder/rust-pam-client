@@ -15,7 +15,7 @@ default = ["cli"]
 cli = ["rpassword"]
 
 [dependencies]
-bitflags = "2.4.2"
+bitflags = { version="2.4.2", features = ["serde"] }
 libc = "0.2"
 pam-sys = "1.0.0-alpha5"
 rustversion = "1.0"
