@@ -614,7 +614,7 @@ mod tests {
 
 	/// Check if a unknown message type produces a conversation error
 	#[test]
-	#[should_panic = "assertion failed"]
+	#[should_panic(expected = "pam_conv failed with error code `left`")]
 	fn test_inval_msg() {
 		test_output_msg(65535, None);
 	}
