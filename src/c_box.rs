@@ -112,6 +112,10 @@ impl<T> CBox<T> {
 	///
 	/// Returns `None` if `raw` is null.
 	fn wrap_slice(raw: *mut T, len: usize) -> Option<CBox<[T]>> {
+		// We add precondition because unsafe code unwinds null pointers in preconditions
+		if raw.is_null() {
+			return None;
+		}
 		let slice = unsafe { slice::from_raw_parts_mut(raw, len) };
 		CBox::wrap(slice)
 	}
